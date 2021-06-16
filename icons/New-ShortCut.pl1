@@ -1,0 +1,60 @@
+function New-ShortCut
+{
+[cmdletbinding()]
+Param
+(
+[parameter(Mandatory)]
+[ValidateScript({ Test-Path -path $_ })]
+[string] $sourceExe,
+     [parameter(ValueFromPipelineByPropertyName)]
+     [string]$Arguments,
+     [parameter(ValueFromPipelineByPropertyName)]
+     [ValidateScript({
+         (Test-Path -path $_) -and ( (Get-Item -path $_).PSIsContainer )
+     })]
+     [string]$WorkingDirectory,
+     [parameter(ValueFromPipelineByPropertyName)]
+     [string] $DestinationLinkName = '{0}\temp.lnk' -f  [environment]::GetFolderPath("desktop"),
+     [parameter(ValueFromPipelineByPropertyName)]
+     [ValidateSet('Default','Maximized','Minimized')]
+     [string]$WindowStyle = 'Default',
+     [parameter(ValueFromPipelineByPropertyName)]
+     [ValidateScript({ Test-Path -path $_ })]
+     [string]$IconPath,
+     [parameter(ValueFromPipelineByPropertyName)]
+     [ValidateScript({ $null -ne $IconPath })]
+     [int]$IconIndexNumber,
+     [parameter(ValueFromPipelineByPropertyName)]
+     [string]$HotKeyString
+ )
+ $wshShell = New-Object -ComObject WScript.Shell
+ $WindowStyles = @{
+     Default     = 1
+     Maximized   = 3
+     Minimized   = 7
+ }
+ $shortcut = $wshShell.CreateShortcut( $DestinationLinkName )
+ $shortcut.TargetPath = $sourceExe
+    
+ if ($arguments)         { $shortcut.Arguments = $Arguments }
+ if ($WorkingDirectory)  { $shortcut.WorkingDirectory = $WorkingDirectory }
+ if ($WindowStyle)       { $shortcut.WindowStyle = $WindowStyles.$WindowStyle }
+ if ($HotKeyString)      { $shortcut.Hotkey = $HotKeyString}
+ if ($IconPath) {
+     if ($IconIndexNumber) {
+         $shortcut.IconLocation = '{0},{1}' -f $IconPath,$IconIndexNumber
+     }
+     else {
+         $shortcut.IconLocation = $IconPath
+     }
+ }
+ try
+ {
+     $shortcut.Save()
+ }
+ catch
+ {
+     $_.Exception.Message
+ }
+ $null = [System.Runtime.InteropServices.Marshal]::ReleaseComObject($wshShell)
+}
