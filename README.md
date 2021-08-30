@@ -7,11 +7,11 @@ mkdir /opt/WSL
 
 cd /opt/WSL
 
-git clone https://github.com/nufeng74/WSLGUIApp2WindowsDesktop.git
+git clone https://github.com/nufeng1999/WSLGUIApp2WindowsDesktop.git   --recurse-submodules
 
 or
 
-git clone git://github.com/nufeng74/WSLGUIApp2WindowsDesktop.git
+git clone git://github.com/nufeng1999/WSLGUIApp2WindowsDesktop.git   --recurse-submodules
 
 cd WSLGUIApp2WindowsDesktop
 
