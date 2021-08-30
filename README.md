@@ -1,3 +1,4 @@
+![](https://img.shields.io/badge/WSL-GUI-green) ![](https://img.shields.io/badge/Cygwin-XWin-orange) ![](https://img.shields.io/github/watchers/nufeng1999/wsl_XWin_Cygwin)
 # WSLGUIApp2WindowsDesktop
 WSL GUI App Integration to windows
 
