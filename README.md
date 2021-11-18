@@ -3,6 +3,9 @@
 WSL GUI App Integration to windows
 
 # Install
+Important Notice :  
+1.Executing Windows terminal with administrator  
+2.Executing WSL with root (wsl -u root -d Ubuntu )  
 
 mkdir /opt/WSL
 
